@@ -1,7 +1,6 @@
 # Linha de pensamento e escolha de linguagem
 
-* Python resolve nossos problemas:
-
+*Requisitos*
 - A api precisa ser performática
 - Simples
 - Fácil gerenciamento, features
