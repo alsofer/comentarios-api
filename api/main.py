@@ -37,7 +37,7 @@ def list_comments(db: Session = Depends(get_db)):
     return comment
 
 @app.post('/comment/new', response_model=schemas.Comment, name='Adicionar um novo comentário', tags=['Add'])
-def new_comment(comment: schemas.NewComment, db: Session = Depends(get_db)):
+def new_comment(comment: schemas.Comment, db: Session = Depends(get_db)):
     return crud.new_comment(db=db, comment=comment)
 
 handler = Mangum(app, debug=True, enable_lifespan=False, spec_version=3)

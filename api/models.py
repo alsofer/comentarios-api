@@ -3,7 +3,7 @@ from sqlalchemy.types import Date
 from .database import Base
 
 class Comment(Base):
-    __tablename__= "comments"
+    __tablename__ = "comments"
     
     email = Column(String(55))
     comment = Column(String(255))
