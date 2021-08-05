@@ -10,4 +10,3 @@ def new_comment(db: Session, comment: schemas.NewComment):
     db.commit()
     db.refresh(comment)
     return comment
-
