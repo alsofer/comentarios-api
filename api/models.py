@@ -1,6 +1,9 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.types import Date
 from .database import Base
+from pydantic import BaseConfig
+
+BaseConfig.arbitrary_types_allowed = True
 
 class Comment(Base):
     __tablename__ = "comments"

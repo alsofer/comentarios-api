@@ -31,7 +31,7 @@ def get_db():
 def healthcheck():
     return {"OK!"}
 
-@app.get('/comment/list', response_model=List[schemas.Comment], name='Listar comentários', tags=['List'])
+@app.get('/comment/list', response_model=schemas.Comment, name='Listar comentários', tags=['List'])
 def list_comments(db: Session = Depends(get_db)):
     comment = db.query(models.Comment).all()
     return comment
