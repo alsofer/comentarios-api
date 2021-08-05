@@ -5,8 +5,6 @@ import os
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DbConnectionString")
 
-#SQLALCHEMY_DATABASE_URL = "mysql://admin:pCu9WTK7yw6HmVzMu0Bg@comentarios-db.cluster-cfalskd2eggt.us-east-2.rds.amazonaws.com/comentarios-api"
-
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
