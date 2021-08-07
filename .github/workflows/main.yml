@@ -37,15 +37,7 @@ jobs:
       # Step 3
       - name: Install Python Virtual ENV
         run: pip install virtualenv && pip install --upgrade pip
-      # Step 4
-      - name:  Setup Virtual env
-        uses: actions/cache@v2
-        id: cache-venv
-        with:
-          path: venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-venv-
+        
       # Step 5
       - name: Activate and Install Depencies into Virtual env
         run: python -m venv venv && source venv/bin/activate &&
