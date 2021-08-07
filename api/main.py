@@ -1,21 +1,36 @@
+## Dependências ##
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.openapi.utils import get_openapi
-from pydantic import BaseModel
+import pydantic
 from mangum import Mangum
-from typing import List, Dict, Optional, Union
+from typing import Generator, List, Dict, Optional, Union
 from sqlalchemy.orm import Session
 from datetime import datetime
+from .schemas import CommentsBaseSchema, CreateCommentsSchema, CommentsSchema
+from .crud import create_comment_content_id_1, create_comment_content_id_2, retrieve_all_content_id_1, retrieve_all_content_id_2
+from .database import Base, SessionLocal, engine
 import json
 import os
+import re
 
+Base.metadata.create_all(bind=engine)
+def get_db() -> Generator:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+################ Variáveis ################
 comments= json.load(open("comments.json", "r"))
-
 app = FastAPI(
-    title="Comentários",
+    title="Comentários API",
     version=0.1
     )
 
+
+################ CORS ################
 app.add_middleware(
     CORSMiddleware,
     allow_origins='*',
@@ -25,30 +40,57 @@ app.add_middleware(
 )
 
 
+################  Rotas ################
 @app.get("/health/")
 def health() -> Dict[str, datetime]:
     return {"timestamp": datetime.now()}
 
-@app.get("/comments/")
-def get_all_comments() -> List[Dict[str, Union[float, int, str]]]:
-    if response := comments:
-        return response
+@app.get("/comment/list/1/", status_code=status.HTTP_200_OK,)
+def get_comments_content_1(
+    db: Session = Depends(get_db)) -> Generator:
+    if result := retrieve_all_content_id_1(db):
+        return result
+
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail="Não existem comentários sendo feitos.",
+        detail="Não existem comentários no momento.",
     )
 
-@app.get("/comments/{content_id}/")
-def get_comments(content_id: int) -> Dict[str, Union[float, int, str]]:
-    if response := list(
-        filter(lambda i: i.get("content_id") == content_id, comments)
-    )[0]:
-        return response
+@app.get("/comment/list/2/", status_code=status.HTTP_200_OK,)
+def get_comments_content_2(
+    db: Session = Depends(get_db)) -> Generator:
+    if result := retrieve_all_content_id_2(db):
+        return result
+
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Não foram encontrados comentários sobre o conteúdo '{content_id}' ",
+        detail="Não existem comentários no momento.",
     )
 
+@app.post("/comment/new/1", status_code=status.HTTP_201_CREATED,)
+def post_comment_content_id1(
+    comment: CreateCommentsSchema,
+    db: Session = Depends(get_db)):
+    if result := create_comment_content_id_1(db, comment):
+        return result
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST
+    )
+
+@app.post("/comment/new/2", status_code=status.HTTP_201_CREATED,)
+def post_comment_content_id2(
+    comment: CreateCommentsSchema,
+    db: Session = Depends(get_db)):
+    if result := create_comment_content_id_2(db, comment):
+        return result
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST
+    )
+
+
+################ Documentação #################
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -67,4 +109,6 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
+
+################ Handler para AWS Lambda Function #################
 handler = Mangum(app, debug=True, enable_lifespan=False, spec_version=3)
