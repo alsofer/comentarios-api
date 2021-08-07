@@ -27,6 +27,7 @@ comments= json.load(open("comments.json", "r"))
 app = FastAPI(
     title="Comentários API",
     version=0.1
+    root_path="api"
     )
 
 
