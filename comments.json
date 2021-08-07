@@ -1,0 +1,22 @@
+[
+  {
+      "content_id": 1,
+      "email": "fabiano@alsofer.com",
+      "comment": "Estou comentando sobre o conteudo 1"
+  },
+  {
+      "content_id": 1,
+      "email": "dev@alsofer.com",
+      "comment": "Essa api está show"
+  },
+  {
+      "content_id": 2,
+      "email": "mock@alsofer.com",
+      "comment": "Acho que estou comentando sobre o conteudo 2"
+  },
+  {
+      "content_id": 2,
+      "email": "api@alsofer.com",
+      "comment": "Estou comentando sobre o conteudo 2 yay!!"
+  }
+]
