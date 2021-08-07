@@ -2,10 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
-# Use this code snippet in your app.
-# If you need more information about configurations or implementing the sample code, visit the AWS docs:   
-# https://aws.amazon.com/developers/getting-started/python/
-
 import boto3
 import base64
 from botocore.exceptions import ClientError
@@ -60,7 +56,9 @@ def get_secret():
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-engine = create_engine(get_secret)
+db_connstring = os.getenv('DbConnectionString') 
+
+engine = create_engine(db_connstring)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
