@@ -27,7 +27,7 @@ comments= json.load(open("comments.json", "r"))
 app = FastAPI(
     title="Comentários API",
     version=0.1,
-    root_path="api"
+    root_path="/api"
     )
 
 
@@ -42,11 +42,11 @@ app.add_middleware(
 
 
 ################  Rotas ################
-@app.get("/health/", name='healthcheck')
+@app.get("/health", name='healthcheck')
 def health() -> Dict[str, datetime]:
     return {"timestamp": datetime.now()}
 
-@app.get("/comment/list/1/", name='listar comentários sobre o conteúdo 1', status_code=status.HTTP_200_OK,)
+@app.get("/comment/list/1", name='listar comentários sobre o conteúdo 1', status_code=status.HTTP_200_OK,)
 def get_comments_content_1(
     db: Session = Depends(get_db)) -> Generator:
     if result := retrieve_all_content_id_1(db):
@@ -57,7 +57,7 @@ def get_comments_content_1(
         detail="Não existem comentários no momento.",
     )
 
-@app.get("/comment/list/2/", name='listar comentários sobre o conteúdo 2', status_code=status.HTTP_200_OK,)
+@app.get("/comment/list/2", name='listar comentários sobre o conteúdo 2', status_code=status.HTTP_200_OK,)
 def get_comments_content_2(
     db: Session = Depends(get_db)) -> Generator:
     if result := retrieve_all_content_id_2(db):
