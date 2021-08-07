@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 app = FastAPI(
     title="Comentários",
     version=0.1,
-    root_path="/production/"
+    root_path="/production"
     )
 
 app.add_middleware(
