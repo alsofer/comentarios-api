@@ -1,6 +1,7 @@
 ## Dependências ##
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import Depends, FastAPI, HTTPException, Request, status
+from fastapi.routing import APIRouter
 from fastapi.openapi.utils import get_openapi
 import pydantic
 from mangum import Mangum
@@ -23,12 +24,18 @@ def get_db() -> Generator:
         db.close()
 
 ################ Variáveis ################
+
+prefix_router = APIRouter()
+
 app = FastAPI(
     title="Comentários API",
-    version=0.1,
-    root_path="/api"
+    version=0.1
     )
 
+app.include_router(
+    prefix_router,
+    prefix="/api"
+)
 
 ################ CORS ################
 app.add_middleware(
@@ -41,7 +48,12 @@ app.add_middleware(
 
 
 ################  Rotas ################
-@app.get("/health", name='healthcheck')
+
+@prefix_router.get("/")
+def handler():
+    return "Hello world!"
+
+@app.get("/api/health", name='healthcheck')
 def health() -> Dict[str, datetime]:
     return {"timestamp": datetime.now()}
 
