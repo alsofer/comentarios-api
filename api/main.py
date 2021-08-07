@@ -23,7 +23,6 @@ def get_db() -> Generator:
         db.close()
 
 ################ Variáveis ################
-comments= json.load(open("comments.json", "r"))
 app = FastAPI(
     title="Comentários API",
     version=0.1,
