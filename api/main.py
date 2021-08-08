@@ -29,7 +29,8 @@ prefix_router = APIRouter()
 
 app = FastAPI(
     title="Comentários API",
-    version=0.1
+    version=0.1,
+    root_path="/api"
     )
 
 app.include_router(
