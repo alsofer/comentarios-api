@@ -5,4 +5,4 @@
 ----
 
 ## Documentação
-- https://rls0ktatw8.execute-api.us-east-2.amazonaws.com/production/docs
+- https://app.swaggerhub.com/apis/alsofer5/comentarios-api/0.1

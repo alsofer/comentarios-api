@@ -54,7 +54,7 @@ app.add_middleware(
 def handler():
     return "Hello world!"
 
-@app.get("/api/health", name='healthcheck')
+@app.get("/health", name='healthcheck')
 def health() -> Dict[str, datetime]:
     return {"timestamp": datetime.now()}
 
