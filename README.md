@@ -4,5 +4,8 @@
 
 ----
 
-## Documentação
+## Documentação da api:
 - https://app.swaggerhub.com/apis/alsofer5/comentarios-api/0.1
+
+## Repositório de infra:
+- https://github.com/alsofer/comentarios-api-infra
