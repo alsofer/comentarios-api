@@ -25,18 +25,11 @@ def get_db() -> Generator:
 
 ################ Variáveis ################
 
-prefix_router = APIRouter()
-
 app = FastAPI(
     title="Comentários API",
     version=0.1,
     root_path="/api"
     )
-
-app.include_router(
-    prefix_router,
-    prefix="/api"
-)
 
 ################ CORS ################
 app.add_middleware(
@@ -49,10 +42,6 @@ app.add_middleware(
 
 
 ################  Rotas ################
-
-@prefix_router.get("/")
-def handler():
-    return "Hello world!"
 
 @app.get("/health", name='healthcheck')
 def health() -> Dict[str, datetime]:
